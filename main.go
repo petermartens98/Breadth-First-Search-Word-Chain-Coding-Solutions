@@ -27,13 +27,13 @@ func loadDictionary(filename string) map[string]bool {
 // Function to generate neighbors of a given word
 // Worst-Case Time Complexity: O(26n^2) or O(n^2)
 func getNeighbors(word string, dictionary map[string]bool) []string {
-	var neighbors []string           // Create list for neighbor words
-	for i := 0; i < len(word); i++ { // Loop through word
-		for c := 'a'; c <= 'z'; c++ { // Loop through alphabet
-			if rune(word[i]) != c { // Check its not the same character as original
-				neighbor := word[:i] + string(c) + word[i+1:] // Create new word replacing word[i] with c
-				if dictionary[neighbor] {                     // Check if new word is in dictionary
-					neighbors = append(neighbors, neighbor) // Append to neighbors list
+	var neighbors []string           							// Create list for neighbor words
+	for i := 0; i < len(word); i++ { 							// Loop through word
+		for c := 'a'; c <= 'z'; c++ { 							// Loop through alphabet
+			if rune(word[i]) != c { 						// Check its not the same character as original
+				neighbor := word[:i] + string(c) + word[i+1:] 			// Create new word replacing word[i] with c
+				if dictionary[neighbor] {                     			// Check if new word is in dictionary
+					neighbors = append(neighbors, neighbor) 		// Append to neighbors list
 				}
 			}
 		}
@@ -44,22 +44,22 @@ func getNeighbors(word string, dictionary map[string]bool) []string {
 // Function to find the shortest word chain between two words using Binary Search
 // Worst-Case Time Complexity: O(mn^2)
 func findWordChain(startWord string, endWord string, dictionary map[string]bool) []string {
-	queue := [][]string{{startWord, startWord}} // Initialize a queue with the start word
-	visited := map[string]bool{startWord: true} // Set to keep track of visited words
-	for len(queue) > 0 {                        // While queue is not empty
-		currentWord, currentChain := queue[0][0], queue[0][1] // Assign current word/chain by dequeuing left most element
-		queue = queue[1:]                                     // Remove the dequeued element from queue
-		if currentWord == endWord {                           // Check if end word is reached
-			return strings.Split(currentChain, " ") // Return current chain if end word reached
+	queue := [][]string{{startWord, startWord}} 						// Initialize a queue with the start word
+	visited := map[string]bool{startWord: true} 						// Set to keep track of visited words
+	for len(queue) > 0 {                        					        // While queue is not empty
+		currentWord, currentChain := queue[0][0], queue[0][1] 				// Assign current word/chain by dequeuing left most element
+		queue = queue[1:]                                     				// Remove the dequeued element from queue
+		if currentWord == endWord {                           				// Check if end word is reached
+			return strings.Split(currentChain, " ") 				// Return current chain if end word reached
 		}
-		for _, neighbor := range getNeighbors(currentWord, dictionary) { // Generate neighbors of current word and add them to queue
-			if _, ok := visited[neighbor]; !ok { // Check cases neighbor is not visited
-				visited[neighbor] = true                                                 // Add neighbor to visted
+		for _, neighbor := range getNeighbors(currentWord, dictionary) { 		// Generate neighbors of current word and add them to queue
+			if _, ok := visited[neighbor]; !ok { 					// Check cases neighbor is not visited
+				visited[neighbor] = true                                        // Add neighbor to visted
 				queue = append(queue, []string{neighbor, currentChain + " " + neighbor}) // Append neighbor to the queue
 			}
 		}
 	}
-	return nil // If no chain is found return nil
+	return nil 	// If no chain is found return nil
 }
 
 // Function to test word chain
